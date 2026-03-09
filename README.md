@@ -423,7 +423,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Ravindu**
 
-- GitHub: [@RavinduDilhan]
+- GitHub: [@WGRavinduDilhan]
 - LinkedIn: [My LinkedIn](www.linkedin.com/in/ravindu-dilhan-7aa47231b)
 
 ---
