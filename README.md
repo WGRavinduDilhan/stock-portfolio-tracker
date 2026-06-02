@@ -1,4 +1,4 @@
-# 📈 Stock Portfolio Tracker & Analytics Dashboard
+# Stock Portfolio Tracker & Analytics Dashboard
 
 A professional-grade **Stock Portfolio Tracker & Analyzer** built with Python that allows users to track live stock prices, analyze portfolio performance, and visualize their investments through an interactive Streamlit dashboard. Perfect for individual investors, financial analysts, and anyone interested in monitoring their stock market investments in real-time.
 
