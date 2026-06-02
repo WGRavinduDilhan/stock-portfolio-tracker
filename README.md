@@ -8,35 +8,35 @@ A professional-grade **Stock Portfolio Tracker & Analyzer** built with Python th
 
 ---
 
-## 🌟 Features
+## Features Platform has
 
 ### Core Functionality
-- ✅ **Real-time Stock Price Tracking** - Fetch live stock prices using Yahoo Finance API
-- ✅ **Portfolio Management** - Add, remove, and manage multiple stock holdings
-- ✅ **Automatic Average Price Calculation** - Smart averaging when adding more shares of existing stocks
-- ✅ **Multi-Stock Support** - Track unlimited stocks in your portfolio simultaneously
+- **Real-time Stock Price Tracking** - Fetch live stock prices using Yahoo Finance API
+- **Portfolio Management** - Add, remove, and manage multiple stock holdings
+- **Automatic Average Price Calculation** - Smart averaging when adding more shares of existing stocks
+- **Multi-Stock Support** - Track unlimited stocks in your portfolio simultaneously
 
 ### Analytics & Metrics
-- 📊 **Return Percentage Calculation** - Calculate gains/losses for each stock position
-- 💰 **Total Portfolio Value** - Real-time calculation of total portfolio worth
-- 📉 **Sharpe Ratio** - Measure risk-adjusted returns (optional advanced metric)
-- 📈 **Maximum Drawdown** - Track the largest peak-to-trough decline
+- **Return Percentage Calculation** - Calculate gains/losses for each stock position
+- **Total Portfolio Value** - Real-time calculation of total portfolio worth
+- **Sharpe Ratio** - Measure risk-adjusted returns (optional advanced metric)
+- **Maximum Drawdown** - Track the largest peak-to-trough decline
 
 ### Visualizations
-- 🥧 **Portfolio Allocation Pie Chart** - Visual breakdown of portfolio composition
-- 📊 **Returns Bar Chart** - Color-coded profit/loss visualization (green for gains, red for losses)
-- 📈 **Historical Price Charts** - Interactive 6-month price history for each stock
-- 🌙 **Dark Theme UI** - Professional dark mode for comfortable viewing
+- **Portfolio Allocation Pie Chart** - Visual breakdown of portfolio composition
+- **Returns Bar Chart** - Color-coded profit/loss visualization (green for gains, red for losses)
+- **Historical Price Charts** - Interactive 6-month price history for each stock
+- **Dark Theme UI** - Professional dark mode for comfortable viewing
 
 ### User Experience
-- 🚀 **Interactive Dashboard** - Built with Streamlit for seamless user interaction
-- ⚡ **Fast Performance** - Efficient data fetching with error handling
-- 🛡️ **Robust Error Handling** - Graceful handling of API failures and invalid tickers
-- 🔄 **Session Persistence** - Portfolio data persists during the session
+- **Interactive Dashboard** - Built with Streamlit for seamless user interaction
+- **Fast Performance** - Efficient data fetching with error handling
+- **Robust Error Handling** - Graceful handling of API failures and invalid tickers
+- **Session Persistence** - Portfolio data persists during the session
 
 ---
 
-## 🛠️ Tech Stack For this Project
+## Tech Stack For this Project
 
 | Technology        | Purpose                                    | 
 |-------------------|--------------------------------------------|
@@ -51,7 +51,7 @@ A professional-grade **Stock Portfolio Tracker & Analyzer** built with Python th
 
 ---
 
-## 📂 Project File Structure
+## Project File Structure
 
 ```
 stock-portfolio-tracker/
@@ -80,7 +80,7 @@ stock-portfolio-tracker/
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 Before you begin, ensure you have the following installed:
 
@@ -91,7 +91,7 @@ Before you begin, ensure you have the following installed:
 
 ---
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### Method 1: Local Installation (Recommended for Development)
 
@@ -162,7 +162,7 @@ docker stop <container_id>
 
 ---
 
-## 📖 Usage Guide
+## Usage Guide
 
 ### Adding Stocks to Your Portfolio
 
@@ -204,7 +204,7 @@ Once you have stocks in your portfolio, you'll see:
 
 ---
 
-## 🧪 Running Tests
+## Running Tests
 
 The project includes comprehensive unit tests for all core functionality.
 
@@ -233,7 +233,7 @@ pytest --cov=app --cov-report=html
 
 ---
 
-## 🔧 Module Documentation
+## Module Documentation
 
 ### `portfolio.py` - Portfolio Management
 
@@ -295,7 +295,7 @@ def plot_returns_bar(tickers, returns)
 
 ---
 
-## 🎨 Customization
+## Customization
 
 ### Change Default Time Period for Historical Data
 
@@ -325,7 +325,7 @@ Edit `visualizer.py` - replace `template="plotly_dark"` with:
 
 ---
 
-## ⚠️ Troubleshooting
+## Troubleshooting
 
 ### Issue: "No price data found for [TICKER]"
 
@@ -369,25 +369,14 @@ python --version
 
 ---
 
-## 🔐 Security & Privacy
+## Security & Privacy
 
-- ✅ **No API Keys Required** - Uses public Yahoo Finance data
-- ✅ **No Data Storage** - All portfolio data is session-based (not saved to disk)
-- ✅ **No Personal Information Collected** - Completely private and local
-- ⚠️ **Yahoo Finance Terms** - Ensure compliance with [Yahoo Finance Terms of Service](https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html)
+- **No API Keys Required** - Uses public Yahoo Finance data
+- **No Data Storage** - All portfolio data is session-based (not saved to disk)
+- **No Personal Information Collected** - Completely private and local
+- **Yahoo Finance Terms** - Ensure compliance with [Yahoo Finance Terms of Service](https://legal.yahoo.com/us/en/yahoo/terms/otos/index.html)
 
 ---
-
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/AmazingFeature`
-3. **Make your changes** and add tests
-4. **Commit your changes**: `git commit -m 'Add some AmazingFeature'`
-5. **Push to the branch**: `git push origin feature/AmazingFeature`
-6. **Open a Pull Request**
 
 ### Development Guidelines
 
@@ -398,7 +387,7 @@ Contributions are welcome! Here's how you can help:
 
 ---
 
-## 🗺️ Roadmap & Future Features
+## Roadmap & Future Features
 
 - [ ] **Portfolio Persistence** - Save/load portfolio data to JSON/Database
 - [ ] **Multiple Portfolios** - Support for managing multiple portfolios
@@ -411,54 +400,14 @@ Contributions are welcome! Here's how you can help:
 - [ ] **Mobile Responsive Design** - Improved mobile experience
 - [ ] **Dark/Light Theme Toggle** - User-selectable themes
 
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👨‍💻 Author
+## Author
 
 **Ravindu**
 
 - GitHub: [@WGRavinduDilhan]
 - LinkedIn: [My LinkedIn](www.linkedin.com/in/ravindu-dilhan-7aa47231b)
 
----
-
-## 🙏 Acknowledgments
-
-- [Yahoo Finance](https://finance.yahoo.com/) for providing free stock market data
-- [Streamlit](https://streamlit.io/) for the amazing web app framework
-- [Plotly](https://plotly.com/) for beautiful interactive visualizations
-- The Python open-source community for excellent libraries
-
----
-
-## 📞 Support
-
-If you encounter any issues or have questions:
-
-1. **Check the [Troubleshooting](#-troubleshooting) section** above
-2. **Open an issue** on GitHub with detailed description
-3. **Check existing issues** - your question might already be answered
-
----
-
-## ⭐ Show Your Support
-
-If you find this project useful, please consider:
-
-- ⭐ **Starring the repository** on GitHub
-- 🍴 **Forking the project** to build your own version
-- 🐛 **Reporting bugs** to help improve the project
-- 💡 **Suggesting features** for future enhancements
-
----
-
-## 📊 Project Status
+## Project Status
 
 **Status**: Active Development 🟢
 
@@ -466,6 +415,3 @@ If you find this project useful, please consider:
 
 **Last Updated**: March 2026
 
----
-
-**Happy Investing! 📈💰**
