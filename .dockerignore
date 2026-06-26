@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environment — never copy this into the image
+venv/
+.venv/
+env/
+
+# Tests & cache
+.pytest_cache/
+tests/
+.coverage
+htmlcov/
+
+# Git
+.git/
+.github/
+.gitignore
+
+# Docker files (no need to copy into image)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Environment secrets
+.env
+
+# Editors / OS
+.DS_Store
+*.swp
+*.idea/
+.vscode/
