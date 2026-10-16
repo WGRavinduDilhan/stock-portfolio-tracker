@@ -11,6 +11,8 @@ setup(
         "numpy",
         "plotly",
         "python-dotenv",
+        "peewee",
+        "google-generativeai",
         "pytest",
     ],
 )

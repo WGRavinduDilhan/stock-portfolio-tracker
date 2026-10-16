@@ -1,0 +1,11 @@
+[theme]
+base            = "light"
+primaryColor    = "#2563eb"        # Blue accent
+backgroundColor = "#ffffff"        # White main background
+secondaryBackgroundColor = "#f0f4f8"  # Light grey sidebar / cards
+textColor       = "#1e293b"        # Dark slate text
+
+[server]
+headless        = true
+enableCORS      = false
+port            = 8501
