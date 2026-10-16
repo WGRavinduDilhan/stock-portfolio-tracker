@@ -12,7 +12,7 @@ setup(
         "plotly",
         "python-dotenv",
         "peewee",
-        "google-generativeai",
+        "google-generativeai==0.1.0",
         "pytest",
     ],
 )
