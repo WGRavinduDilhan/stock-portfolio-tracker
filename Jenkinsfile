@@ -17,11 +17,13 @@ pipeline {
         stage('Python Tests') {
             steps {
                 sh '''
-                    python3 -m venv .jenkins-venv
-                    . .jenkins-venv/bin/activate
-                    python -m pip install --upgrade pip
-                    pip install -r requirements.txt
-                    pytest -v
+                    set -e
+                    docker info >/dev/null
+                    docker run --rm \
+                        -v "$WORKSPACE:/workspace" \
+                        -w /workspace \
+                        python:3.11-slim \
+                        sh -c 'python -m pip install --upgrade pip && pip install -r requirements.txt && pytest -v'
                 '''
             }
         }
