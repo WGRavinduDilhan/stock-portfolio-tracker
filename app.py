@@ -4,6 +4,10 @@ Enhanced version with 14 new features.
 """
 
 import time
+import math
+import re
+from datetime import datetime
+
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
@@ -18,6 +22,13 @@ from app.alerts       import check_alerts, format_alert_message
 from app.ai_insights  import get_stock_insight
 
 load_dotenv()
+
+_TICKER_PATTERN = re.compile(r"^[A-Z][A-Z0-9.-]{0,9}$")
+
+
+def _is_valid_ticker(ticker: str) -> bool:
+    return bool(_TICKER_PATTERN.fullmatch(ticker))
+
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -39,33 +50,96 @@ if time.time() - st.session_state.last_refresh > _REFRESH_INTERVAL:
 # ── Custom CSS (Light Theme) ──────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    /* Light main background */
     .stApp { background-color: #f8fafc; }
-    /* Metric cards — white with subtle border and shadow */
+    [data-testid="stHeader"] { background: rgba(248,250,252,0.86); }
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #eff6ff 0%, #f8fafc 42%);
+        border-right: 1px solid #dbeafe;
+    }
+    .hero {
+        background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 58%, #60a5fa 100%);
+        border-radius: 18px;
+        padding: 1.5rem 1.8rem;
+        margin: 0.3rem 0 1.2rem;
+        color: white;
+        box-shadow: 0 10px 24px rgba(37,99,235,0.18);
+    }
+    .hero-eyebrow {
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        opacity: 0.82;
+        text-transform: uppercase;
+    }
+    .hero-title {
+        font-size: clamp(1.8rem, 4vw, 2.65rem);
+        font-weight: 750;
+        line-height: 1.1;
+        margin: 0.3rem 0 0.45rem;
+    }
+    .hero-subtitle { margin: 0; opacity: 0.9; }
+    .status-strip {
+        background: #ffffff;
+        border: 1px solid #dbeafe;
+        border-radius: 10px;
+        color: #475569;
+        font-size: 0.86rem;
+        padding: 0.55rem 0.8rem;
+        margin: 0.4rem 0 1rem;
+    }
     div[data-testid="metric-container"] {
         background    : #ffffff;
         border        : 1px solid #e2e8f0;
         border-radius : 10px;
         padding       : 12px 16px;
         box-shadow    : 0 1px 4px rgba(0,0,0,0.06);
+        min-height    : 92px;
     }
-    /* Section headers */
     .section-header {
         font-size     : 1.05rem;
         font-weight   : 600;
         color         : #2563eb;
-        margin        : 1.2rem 0 0.4rem 0;
+        margin        : 1.4rem 0 0.5rem 0;
         border-bottom : 2px solid #dbeafe;
-        padding-bottom: 4px;
+        padding-bottom: 7px;
     }
-    /* News items */
-    .news-item { margin-bottom: 6px; }
-    a { color: #2563eb; }
+    .sidebar-note {
+        background: rgba(255,255,255,0.72);
+        border: 1px solid #dbeafe;
+        border-radius: 10px;
+        color: #475569;
+        font-size: 0.82rem;
+        line-height: 1.45;
+        padding: 0.7rem 0.8rem;
+    }
+    .news-item {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-left: 3px solid #60a5fa;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        padding: 0.65rem 0.8rem;
+    }
+    .news-item a { color: #1d4ed8; font-weight: 600; }
+    .stButton > button {
+        border-radius: 8px;
+        font-weight: 600;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-st.title("📈 Stock Portfolio Tracker & Analytics Dashboard")
-st.caption("Prices auto-refresh every 5 minutes · Powered by Yahoo Finance")
+st.markdown(
+    """
+    <div class="hero">
+        <div class="hero-eyebrow">Personal investing workspace</div>
+        <div class="hero-title">📈 Stock Portfolio Tracker</div>
+        <p class="hero-subtitle">
+            Monitor holdings, understand performance, and explore market trends in one place.
+        </p>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 # ── Session state init ────────────────────────────────────────────────────────
 if "portfolio" not in st.session_state:
@@ -81,17 +155,35 @@ portfolio: Portfolio = st.session_state.portfolio
 #  SIDEBAR
 # ═══════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
+    st.markdown(
+        '<div class="sidebar-note">Add a Yahoo Finance ticker, shares, and '
+        'your average purchase price to start tracking a position.</div>',
+        unsafe_allow_html=True,
+    )
     st.header("➕ Add a Stock")
-    ticker    = st.text_input("Ticker Symbol (e.g. AAPL, TSLA)").upper().strip()
-    shares    = st.number_input("Number of Shares",        min_value=0.01, step=0.01)
-    buy_price = st.number_input("Buy Price per Share ($)", min_value=0.01, step=0.01)
+    ticker = st.text_input(
+        "Ticker Symbol",
+        placeholder="AAPL or MSFT",
+        help="Use the Yahoo Finance symbol, for example GOOGL rather than GOOGLE.",
+    ).upper().strip()
+    shares = st.number_input(
+        "Number of Shares", min_value=0.01, step=0.01, format="%.2f"
+    )
+    buy_price = st.number_input(
+        "Buy Price per Share ($)", min_value=0.01, step=0.01, format="%.2f"
+    )
 
     if st.button("Add to Portfolio", use_container_width=True):
-        if ticker:
+        if not _is_valid_ticker(ticker):
+            st.error("Enter a valid ticker symbol, such as AAPL or GOOGL.")
+        elif not math.isfinite(shares) or not math.isfinite(buy_price):
+            st.error("Shares and buy price must be valid numbers.")
+        elif ticker:
             portfolio.add_stock(ticker, shares, buy_price)
             st.success(f"✅ Added {ticker} to portfolio!")
-        else:
-            st.warning("Please enter a ticker symbol.")
+
+    if st.button("🔄 Refresh Market Data", use_container_width=True):
+        st.rerun()
 
     # ── Enhancement #1: Remove stock ─────────────────────────────────────────
     holdings = portfolio.get_holdings()
@@ -105,6 +197,7 @@ with st.sidebar:
         if st.button("Remove", use_container_width=True, type="secondary"):
             if ticker_to_remove != "— select —":
                 portfolio.remove_stock(ticker_to_remove)
+                st.success(f"Removed {ticker_to_remove} from the portfolio.")
                 st.rerun()
 
     # ── Enhancement #14: Price Alerts ────────────────────────────────────────
@@ -129,6 +222,9 @@ with st.sidebar:
                 if st.button("Clear All Alerts", use_container_width=True, type="secondary"):
                     st.session_state.alerts = {}
 
+    st.divider()
+    st.caption("Market data is provided by Yahoo Finance and may be delayed.")
+
 # ═══════════════════════════════════════════════════════════════════════════════
 #  MAIN DASHBOARD
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -145,7 +241,21 @@ with st.spinner("Fetching live prices…"):
         price = get_stock_price(t)
         current_prices[t] = price
         if price == 0.0:
-            st.warning(f"⚠️ No live price data for **{t}** — showing $0 in calculations.")
+            st.warning(
+                f"⚠️ No live price data for **{t}** — check that it is a valid "
+                "Yahoo Finance symbol."
+            )
+
+st.caption(
+    f"Last updated: {datetime.now().astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')}"
+)
+available_prices = sum(price > 0 for price in current_prices.values())
+st.markdown(
+    f'<div class="status-strip">🟢 Market data available for '
+    f'<strong>{available_prices}/{len(holdings)}</strong> holdings · '
+    "Use Refresh Market Data in the sidebar to fetch the latest values.</div>",
+    unsafe_allow_html=True,
+)
 
 # ── Fire price alerts (Enhancement #14) ──────────────────────────────────────
 if st.session_state.alerts:
@@ -203,15 +313,28 @@ st.dataframe(
     ),
     width="stretch",
     hide_index=True,
+    column_config={
+        "Shares": st.column_config.NumberColumn(format="%.2f"),
+        "Avg Buy Price": st.column_config.NumberColumn(format="$%.2f"),
+        "Current Price": st.column_config.NumberColumn(format="$%.2f"),
+        "Market Value": st.column_config.NumberColumn(format="$%.2f"),
+        "Return %": st.column_config.NumberColumn(format="%.2f%%"),
+        "P&L ($)": st.column_config.NumberColumn(format="$%.2f"),
+    },
 )
 
 # ── Enhancement #9: CSV Export ────────────────────────────────────────────────
-st.download_button(
-    label="⬇️ Export Portfolio as CSV",
-    data=df_table.to_csv(index=False),
-    file_name="my_portfolio.csv",
-    mime="text/csv",
-)
+export_col, export_hint = st.columns([1, 2])
+with export_col:
+    st.download_button(
+        label="⬇️ Export CSV",
+        data=df_table.to_csv(index=False),
+        file_name="my_portfolio.csv",
+        mime="text/csv",
+        use_container_width=True,
+    )
+with export_hint:
+    st.caption("Download a snapshot of your holdings and performance.")
 
 st.divider()
 
