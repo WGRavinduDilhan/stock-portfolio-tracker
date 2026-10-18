@@ -8,12 +8,6 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Python Tests') {
             steps {
                 sh '''
@@ -22,6 +16,7 @@ pipeline {
                     docker run --rm \
                         -v "$WORKSPACE:/workspace" \
                         -w /workspace \
+                        -e PYTHONPATH=/workspace \
                         python:3.11-slim \
                         sh -c 'python -m pip install --upgrade pip && pip install -r requirements.txt && pytest -v'
                 '''
