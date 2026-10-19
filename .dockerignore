@@ -11,6 +11,7 @@ build/
 # Virtual environment — never copy this into the image
 venv/
 .venv/
+.jenkins-venv/
 env/
 
 # Tests & cache
@@ -24,7 +25,8 @@ htmlcov/
 .github/
 .gitignore
 
-# Docker files (no need to copy into image)
+# Jenkins and Docker files (no need to copy into the image)
+Jenkinsfile
 Dockerfile
 docker-compose.yml
 .dockerignore
